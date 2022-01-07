@@ -1,6 +1,24 @@
-import { Component } from "solid-js";
+import { JSX } from 'solid-js';
+  
+type MDXComponents = {
+  [key in keyof JSX.IntrinsicElements]: string | ((props: JSX.IntrinsicElements[key]) => JSX.Element);
+}
+interface MDXProps {
+  components?: MDXComponents;
+  children?: JSX.Element;
+}
 
-declare module "*?mdx" {
-  const Comp: Component<{}>;
+type MDXComponent = (props: MDXProps) => JSX.Element;
+
+declare module '*.mdx' {
+  const Comp: MDXComponent;
+  export default Comp;
+}
+declare module '*.md' {
+  const Comp: MDXComponent;
+  export default Comp;
+}
+declare module '*.markdown' {
+  const Comp: MDXComponent;
   export default Comp;
 }
