@@ -4,6 +4,7 @@
   "compilerOptions": {
     "outDir": "./types",
     "rootDir": "./src",
+    "target": "ES2015",
     "esModuleInterop": true,
     "downlevelIteration": true,
     "lib": ["dom", "esnext"]

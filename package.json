@@ -8,17 +8,12 @@
   "files": [
     "dist",
     "types",
-    "vite-plugin.js",
     "client.d.ts"
   ],
   "scripts": {
     "build": "tsc --emitDeclarationOnly && ./build.js",
     "dev": "./build.js -watch -debug",
     "clean": "rm -rf .turbo && rm -rf dist && rm -rf node_modules"
-  },
-  "dependencies": {
-    "resolve": "^1.20.0",
-    "xdm": "^3.3.1"
   },
   "devDependencies": {
     "@vinxi/tsconfig": "^0.0.2",

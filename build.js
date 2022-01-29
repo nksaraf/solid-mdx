@@ -6,36 +6,30 @@ const cjs = {
   platform: "node",
   format: "cjs",
   bundle: true,
-  external: [...Object.keys(package.dependencies), ...Object.keys(package.peerDependencies)]
+  external: [
+    ...Object.keys(package.dependencies ?? {}),
+    ...Object.keys(package.peerDependencies ?? {}),
+  ],
 };
 
 const esm = {
   platform: "node",
   format: "esm",
   bundle: true,
-  external: [...Object.keys(package.dependencies), ...Object.keys(package.peerDependencies)]
+  external: [
+    ...Object.keys(package.dependencies ?? {}),
+    ...Object.keys(package.peerDependencies ?? {}),
+  ],
 };
 
 estrella.build({
   entry: "src/index.ts",
   outfile: "dist/index.js",
-  ...cjs
+  ...cjs,
 });
 
 estrella.build({
   entry: "src/index.ts",
   outfile: "dist/index.mjs",
-  ...esm
-});
-
-estrella.build({
-  entry: "src/vite-plugin.ts",
-  outfile: "dist/vite-plugin.js",
-  ...cjs
-});
-
-estrella.build({
-  entry: "src/vite-plugin.ts",
-  outfile: "dist/vite-plugin.mjs",
-  ...esm
+  ...esm,
 });
