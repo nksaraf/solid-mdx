@@ -1,6 +1,6 @@
 {
   "name": "solid-mdx",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -16,7 +16,7 @@
     "clean": "rm -rf .turbo && rm -rf dist && rm -rf node_modules"
   },
   "devDependencies": {
-    "@vinxi/tsconfig": "^0.0.2",
+    "@vinxi/tsconfig": "^0.0.3",
     "estrella": "^1.4.1",
     "solid-js": "^1.2.6",
     "vite": "^2.7.9"
