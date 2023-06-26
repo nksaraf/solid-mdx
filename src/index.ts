@@ -2,46 +2,58 @@ import { HTMLElements, SVGElements } from "./elements";
 
 import {
   createContext,
-  Component,
   mergeProps,
   useContext,
   createComponent,
-  PropsWithChildren,
   JSX,
+  splitProps,
+  createMemo,
 } from "solid-js";
 import { Dynamic } from "solid-js/web";
 
-export const MDXContext = createContext(
-  Object.fromEntries(
-    [...HTMLElements, ...SVGElements.keys()].map((el) => [
-      el,
-      function (props: any) {
-        props = mergeProps(props, {
+export type MDXComponents = {
+  [key in keyof JSX.IntrinsicElements]: (
+    props: JSX.IntrinsicElements[key]
+  ) => JSX.Element;
+};
+
+export interface MDXProps {
+  components?:
+    | MDXComponents
+    | {
+        [k: string]: (props: any) => JSX.Element;
+      };
+  children?: JSX.Element;
+}
+
+export type MDXComponent = (props: MDXProps) => JSX.Element;
+
+export const MDXContext = createContext<MDXComponents>(
+  [...HTMLElements, ...SVGElements].reduce((acc, el) => {
+    acc[el] = (props: JSX.IntrinsicElements[typeof el]) => {
+      return createComponent(
+        Dynamic,
+        mergeProps(props, {
           component: el,
-        });
-        return createComponent(Dynamic, props);
-      },
-    ])
-  )
+        })
+      );
+    };
+
+    return acc;
+  }, {} as MDXComponents)
 );
 
-export const MDXProvider = (
-  props: PropsWithChildren<{
-    components: {
-      [k: string]: (props: any) => JSX.Element;
-    };
-  }>
-) => {
+export const MDXProvider: MDXComponent = (props) => {
   const context = useContext(MDXContext);
+  const [local, other] = splitProps(props, ["children"]);
+  const value = createMemo(() => ({ ...context, ...other.components }));
+
   return createComponent(MDXContext.Provider, {
     get value() {
-      return {
-        ...context,
-        ...(props.components ?? {}),
-      };
+      return value();
     },
     get children() {
-      return props.children;
+      return local.children;
     },
   });
 };
