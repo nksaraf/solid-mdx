@@ -6,6 +6,9 @@ node_modules
 dist
 dist-ssr
 *.local
+*.lock
+*-lock.yaml
+*-lock.json
 .env
 .cache
 server/dist
