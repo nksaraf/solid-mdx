@@ -1,17 +1,29 @@
 {
   "name": "solid-mdx",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "./types/index.d.ts",
+  "type": "module",
   "files": [
     "dist",
     "types",
     "client.d.ts"
   ],
+  "exports": {
+    ".": {
+      "default": "./dist/index.mjs",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "types/*"
+      ]
+    }
+  },
   "scripts": {
-    "build": "tsc --emitDeclarationOnly && ./build.js",
+    "build": "tsc --emitDeclarationOnly && ./build.cjs",
     "dev": "./build.js -watch -debug",
     "clean": "rm -rf .turbo && rm -rf dist && rm -rf node_modules"
   },
@@ -19,6 +31,7 @@
     "@vinxi/tsconfig": "^0.0.3",
     "estrella": "^1.4.1",
     "solid-js": "^1.2.6",
+    "typescript": "^5.2.2",
     "vite": "^2.7.9"
   },
   "peerDependencies": {
