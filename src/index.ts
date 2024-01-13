@@ -11,11 +11,29 @@ import {
 } from "solid-js";
 import { Dynamic } from "solid-js/web";
 
+function convertCamelToKebab(obj: Record<string, string>): Record<string, string> {
+  const kebabObj: Record<string, string> = {};
+
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const kebabKey = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+      kebabObj[kebabKey] = obj[key];
+    }
+  }
+
+  return kebabObj;
+}
+
 export const MDXContext = createContext(
   Object.fromEntries(
     [...HTMLElements, ...SVGElements.keys()].map((el) => [
       el,
-      function (props: any) {
+      function(props: any) {
+        // Transform style
+        if (props.style) {
+          props.style = convertCamelToKebab(props.style)
+        }
+
         props = mergeProps(props, {
           component: el,
         });
